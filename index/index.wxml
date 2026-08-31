@@ -1,0 +1,33 @@
+<!--pages/index/index.wxml-->
+<view class="index-container">
+  <!-- 顶部搜索栏 -->
+  <view class="search-bar">
+    <input 
+      type="text" 
+      placeholder="🔍 输入关键字搜索新闻..." 
+      value="{{searchKey}}" 
+      bindinput="onSearchInput" 
+    />
+    <button wx:if="{{searchKey.length > 0}}" size="mini" bindtap="clearSearch">清除</button>
+  </view>
+
+  <!-- 幻灯片滚动（未搜索时显示） -->
+  <swiper wx:if="{{searchKey.length == 0}}" indicator-dots="true" autoplay="true" interval="5000" duration="500">
+    <swiper-item wx:for="{{swiperImg}}" wx:key="index">
+      <image src="{{item.src}}" mode="aspectFill"></image>
+    </swiper-item>
+  </swiper>
+
+  <!-- 新闻列表 -->
+  <view id='news-list'>
+    <view class='list-item' wx:for="{{displayNewsList}}" wx:for-item="news" wx:key="id" bindtap='goToDetail' data-id='{{news.id}}'>
+      <image src='{{news.poster}}'></image>
+      <text>◇{{news.title}}——{{news.add_date}}</text>
+    </view>
+
+    <!-- 搜索无结果提示 -->
+    <view wx:if="{{displayNewsList.length == 0}}" class="empty-tip">
+      未找到与“{{searchKey}}”相关的新闻
+    </view>
+  </view>
+</view>
